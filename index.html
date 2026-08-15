@@ -201,12 +201,143 @@
   }
 </style>
 
+<style id="mobile-v2">
+@media (max-width:840px){
+  :root{
+    --mobile-bg:#faf7f2;
+    --mobile-card:#fffdfa;
+    --mobile-line:#ebe4dc;
+    --mobile-lav:#9b8bc8;
+  }
+  html,body{background:var(--mobile-bg);overflow-x:hidden}
+  body{padding:0;margin:0}
+  .app{min-height:100dvh;background:var(--mobile-bg)}
+  .topbar{
+    height:auto;min-height:62px;
+    padding:calc(env(safe-area-inset-top) + 10px) 18px 10px;
+    border-bottom:1px solid rgba(225,216,208,.72);
+    box-shadow:none;
+  }
+  .mobile-brand{font-size:18px;letter-spacing:.01em}
+  .top-actions .icon-btn{
+    width:38px;height:38px;border-radius:13px;
+    border:1px solid #e7dfd7;background:rgba(255,255,255,.9);
+    color:#8d80bf;font-size:16px;
+  }
+  .content{padding:16px 16px calc(104px + env(safe-area-inset-bottom))}
+  .mobile-hero{
+    min-height:148px;border-radius:22px;padding:23px 22px;
+    background:
+      radial-gradient(circle at 82% 24%,rgba(255,255,255,.17),transparent 24%),
+      linear-gradient(135deg,#9f90cf 0%,#b0a0d4 52%,#cec1df 100%);
+    box-shadow:0 12px 30px rgba(126,108,174,.16);
+  }
+  .mobile-hero small{font-size:16px}
+  .mobile-hero b{font-size:34px;line-height:1.1;margin:13px 0 13px;letter-spacing:-.02em}
+  .mobile-hero p{font-size:13px;line-height:1.65;opacity:.95}
+  .mobile-hero:after{right:25px;top:48px;font-size:54px;color:rgba(255,255,255,.13)}
+
+  .dashboard-grid{margin-top:14px}
+  .section-card,.recent,.card{
+    border-color:var(--mobile-line);
+    box-shadow:0 5px 18px rgba(84,70,59,.035);
+  }
+  .section-card{padding:18px;border-radius:20px}
+  .section-title{font-size:15px;margin-bottom:14px}
+  .section-title small{font-size:11px}
+  .donut-wrap{grid-template-columns:145px minmax(0,1fr);gap:14px;min-height:168px}
+  .donut{width:138px;height:138px}
+  .donut:after{inset:39px}
+  .donut-center b{font-size:18px}
+  .donut-center small{font-size:11px}
+  .legend{gap:7px}
+  .legend-row{font-size:11px;grid-template-columns:10px minmax(0,1fr) auto;gap:7px}
+  .legend-row span:nth-child(2){overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  .recent{border-radius:20px;overflow:hidden}
+  .recent .section-title{padding:17px 18px 8px!important}
+  .recent tr{
+    grid-template-columns:58px 54px minmax(0,1fr) auto;
+    min-height:54px;padding:8px 12px;
+  }
+  .recent td{font-size:12px}
+  .recent td.amount{font-size:13px}
+  .type-chip{padding:4px 9px;font-size:10px}
+
+  .panel-grid,.settings{gap:12px}
+  .summary-cards{gap:10px}
+  .summary-card{border-radius:17px}
+  .toolbar{top:78px;padding:5px 0 10px}
+  .field{min-width:0}
+  .fab{
+    right:18px;
+    bottom:calc(76px + env(safe-area-inset-bottom));
+    width:54px;height:54px;font-size:30px;
+    box-shadow:0 11px 26px rgba(113,94,167,.32)
+  }
+
+  .mobile-nav{
+    display:grid!important;
+    grid-template-columns:repeat(5,1fr);
+    position:fixed;z-index:70;
+    left:12px;right:12px;
+    bottom:calc(10px + env(safe-area-inset-bottom));
+    height:58px;padding:5px 4px;
+    background:rgba(255,253,250,.92);
+    border:1px solid rgba(225,216,208,.88);
+    border-radius:20px;
+    backdrop-filter:blur(18px);
+    box-shadow:0 10px 28px rgba(72,62,55,.10);
+  }
+  .mobile-nav button{
+    border:0;background:transparent;color:#817a81;
+    border-radius:15px;font-size:10px;line-height:1.1;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px
+  }
+  .mobile-nav button i{font-style:normal;font-size:18px}
+  .mobile-nav button.active{background:#eee8f6;color:#786aac;font-weight:650}
+
+  .review-sheet{
+    align-items:end!important;padding:0!important;
+    background:rgba(42,35,39,.30)!important;
+  }
+  .review-card{
+    width:100%;max-width:none!important;
+    border-radius:28px 28px 0 0!important;
+    padding:22px 20px calc(24px + env(safe-area-inset-bottom))!important;
+    background:#fffaf6!important;
+    border:0!important;
+  }
+  .review-kicker{
+    display:inline-flex;padding:6px 10px;border-radius:999px;
+    background:#eee8f6;color:#7667a9;font-size:11px;font-weight:650;
+    margin-bottom:12px
+  }
+  .review-title{font-size:22px;font-weight:750;margin:0 0 5px}
+  .review-sub{font-size:12px;color:#817982;margin:0 0 18px}
+  .review-amount{
+    border-radius:20px;padding:19px 18px;margin-bottom:13px;
+    background:linear-gradient(135deg,#9f90cf,#c5b5db);
+    color:white;
+  }
+  .review-amount small{display:block;opacity:.87;margin-bottom:6px}
+  .review-amount b{font-size:32px;letter-spacing:-.02em}
+  .review-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:13px 0 18px}
+  .review-item{background:#f5f0ec;border-radius:14px;padding:11px 12px}
+  .review-item small{display:block;color:#8d858b;font-size:10px;margin-bottom:4px}
+  .review-item b{font-size:13px}
+  .review-actions{display:grid;grid-template-columns:1fr 1.7fr;gap:10px}
+  .review-actions button{height:48px;border-radius:15px;font-weight:700}
+}
+@media (min-width:841px){.mobile-nav{display:none}}
+</style>
+
+
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="AI记账本">
-<meta name="format-detection" content="telephone=no">
 
 </head>
 <body>
@@ -347,7 +478,7 @@
             <p>Shortcut 最简单的方式是拼一个 URL，然后使用「打开 URL」。页面启动后会自动写入交易，再清理地址栏参数。</p>
             <div class="shortcut-box" id="shortcutExample"></div>
             <div class="toolbar" style="margin-top:12px"><button class="secondary" id="copyShortcutBtn">复制 URL 模板</button></div>
-            <p>推荐直接传 <code>payload=&lt;DeepSeek JSON&gt;</code>；也兼容 <code>action=add</code> + date / type / amount / category / merchant / account / note 逐字段参数。</p>
+            <p>Shortcut 推荐传 <code>review=1&amp;payload=&lt;DeepSeek JSON&gt;</code>。页面会先显示确认卡片，只有点击「确认记账」才正式写入。</p>
           </div>
           <div class="card">
             <h3>与 Numbers 文件对应</h3>
@@ -375,6 +506,15 @@
 
 <button class="fab" id="fab">＋</button>
 
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <button data-view="dashboard" class="active"><i>⌂</i><span>首页</span></button>
+  <button data-view="transactions"><i>≡</i><span>明细</span></button>
+  <button data-view="category"><i>◔</i><span>分类</span></button>
+  <button data-view="budget"><i>◎</i><span>预算</span></button>
+  <button data-view="summary"><i>▥</i><span>汇总</span></button>
+</nav>
+
+
 <div class="modal-backdrop" id="modalBackdrop">
   <div class="modal">
     <div class="modal-head"><h2>新增交易</h2><button class="icon-btn" id="closeModal">×</button></div>
@@ -393,6 +533,29 @@
   </div>
 </div>
 <div class="toast" id="toast"></div>
+
+<div class="modal-backdrop review-sheet" id="reviewBackdrop">
+  <div class="modal review-card">
+    <span class="review-kicker">✦ AI 已识别</span>
+    <h2 class="review-title">确认这笔记账</h2>
+    <p class="review-sub">只有点击「确认记账」后，才会正式写入 Tracker。</p>
+    <div class="review-amount">
+      <small id="reviewType">支出</small>
+      <b id="reviewAmount">¥ 0.00</b>
+    </div>
+    <div class="review-grid">
+      <div class="review-item"><small>分类</small><b id="reviewCategory">—</b></div>
+      <div class="review-item"><small>商户</small><b id="reviewMerchant">—</b></div>
+      <div class="review-item"><small>账户</small><b id="reviewAccount">—</b></div>
+      <div class="review-item"><small>日期</small><b id="reviewDate">—</b></div>
+    </div>
+    <div class="review-actions">
+      <button class="secondary" id="rejectReview">取消</button>
+      <button class="primary" id="confirmReview">确认记账</button>
+    </div>
+  </div>
+</div>
+
 
 <script>
 (() => {
@@ -441,6 +604,7 @@
   };
 
   let state = structuredClone(demo);
+  let pendingReview = null;
 
   const $ = s => document.querySelector(s);
   const $$ = s => [...document.querySelectorAll(s)];
@@ -686,7 +850,7 @@
   function buildShortcutExample(){
     const base=(location.protocol==="http:"||location.protocol==="https:") ? `${location.origin}${location.pathname}` : "https://YOUR-DOMAIN.example/ledger.html";
     const payload=JSON.stringify({date:"2026-08-15",type:"Expense",amount:28.50,category:"Food",merchant:"麦当劳",account:"支付宝",note:"午餐"});
-    const p=new URLSearchParams({payload});
+    const p=new URLSearchParams({review:"1",payload});
     return `${base}?${p.toString()}`;
   }
 
@@ -726,13 +890,26 @@
     toast._timer=setTimeout(()=>t.classList.remove("show"),2200);
   }
 
+  function showReview(tx){
+    pendingReview = tx;
+    $("#reviewType").textContent = tx.type==="Income" ? "收入" : "支出";
+    $("#reviewAmount").textContent = money(Number(tx.amount||0));
+    $("#reviewCategory").textContent = CN[tx.category] || tx.category || "其他";
+    $("#reviewMerchant").textContent = tx.merchant || "—";
+    $("#reviewAccount").textContent = tx.account || "—";
+    $("#reviewDate").textContent = tx.date || "—";
+    $("#reviewBackdrop").classList.add("show");
+  }
+
+  function closeReview(){
+    $("#reviewBackdrop").classList.remove("show");
+    pendingReview = null;
+  }
+
   async function handleShortcutParams(){
     const p=new URLSearchParams(location.search);
     let tx=null;
 
-    // 推荐：Shortcut 把 DeepSeek 输出的 JSON 直接 URL Encode 后放进 payload。
-    // 示例 payload:
-    // {"date":"2026-08-15","type":"Expense","amount":28.5,"category":"Food","merchant":"麦当劳","account":"支付宝","note":"午餐"}
     const payload=p.get("payload");
     if(payload){
       try{
@@ -746,10 +923,9 @@
           account:j.account||j.Account||state.settings.defaultAccount,
           note:j.note||j.Note||""
         };
-      }catch(e){ toast("Shortcut payload JSON 无法解析"); }
+      }catch(e){ toast("Shortcut JSON 无法解析"); }
     }
 
-    // 也支持逐字段 query 参数。
     if(!tx && p.get("action")==="add"){
       tx={
         date:p.get("date")||new Date().toISOString().slice(0,10),
@@ -763,7 +939,8 @@
     }
 
     if(tx?.amount){
-      await addTransaction(tx,"shortcut");
+      // v2: Shortcut 默认先进入 Review，不立即正式写入
+      showReview(tx);
       if(history.replaceState) history.replaceState({},document.title,location.pathname+location.hash);
     }
   }
@@ -790,6 +967,25 @@
     e.target.value="";
   };
   $("#resetBtn").onclick=async()=>{if(confirm("恢复 Demo 会覆盖当前本机账本，继续吗？")){state=structuredClone(demo);await persist();renderAll();toast("已恢复 Demo")}};
+
+  $("#mobileNav").addEventListener("click",e=>{
+    const b=e.target.closest("button[data-view]");
+    if(!b) return;
+    switchView(b.dataset.view);
+    $$("#mobileNav button").forEach(x=>x.classList.toggle("active",x.dataset.view===b.dataset.view));
+  });
+
+  $("#confirmReview").onclick=async()=>{
+    if(!pendingReview) return;
+    const tx={...pendingReview};
+    $("#reviewBackdrop").classList.remove("show");
+    pendingReview=null;
+    await addTransaction(tx,"shortcut");
+    switchView("dashboard");
+    $$("#mobileNav button").forEach(x=>x.classList.toggle("active",x.dataset.view==="dashboard"));
+  };
+  $("#rejectReview").onclick=()=>{ closeReview(); toast("已取消，不会计入账本"); };
+
   $("#copyShortcutBtn").onclick=async()=>{try{await navigator.clipboard.writeText(buildShortcutExample());toast("URL 模板已复制")}catch(e){prompt("复制下面的 URL",buildShortcutExample())}};
 
   (async()=>{
@@ -801,12 +997,9 @@
 </script>
 
 <script>
-if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js").catch(console.error);
-  });
+if("serviceWorker" in navigator && (location.protocol==="https:" || location.hostname==="localhost")){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(console.error));
 }
 </script>
-
 </body>
 </html>

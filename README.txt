@@ -1,28 +1,22 @@
-AI 智能记账本 PWA
+AI 智能记账本 PWA v2
 
-部署：
-1. 将本文件夹完整上传到任意 HTTPS 静态托管服务。
-2. 推荐：GitHub Pages / Vercel / Cloudflare Pages。
-3. 用 iPhone Safari 打开部署后的网址。
-4. 分享 → 添加到主屏幕。
-5. 之后从 Home Screen 打开，即为独立 PWA。
+本次更新：
+- 手机端重新布局：安全区、紧凑 Dashboard、底部导航、移动端卡片尺寸。
+- Shortcut payload 不再立即入账。
+- 页面收到 payload 后先弹出紫色确认卡。
+- 点击“确认记账”才写入 IndexedDB/localStorage；取消则不写入。
 
-Shortcut 写入：
-支持 ?payload=<URL编码后的JSON>
+Shortcut 最后一段：
+1. 保持原有 OCR → DeepSeek → JSON。
+2. 将 JSON 做 URL Encode。
+3. 最后 URL 改为：
+   https://你的GitHubPages地址/?review=1&payload=[编码后的JSON]
+4. 使用“打开 URL”。
 
-示例 JSON：
-{
-  "date":"2026-08-15",
-  "type":"Expense",
-  "amount":28.5,
-  "category":"Food",
-  "merchant":"麦当劳",
-  "account":"支付宝",
-  "note":"午餐"
-}
+GitHub 更新：
+直接用本包里的 index.html / manifest.webmanifest / service-worker.js / icons 覆盖仓库根目录同名文件。
+GitHub Pages 会自动重新部署。
 
-数据说明：
-- 账单保存在该设备的 IndexedDB，同时镜像到 localStorage。
-- 页面支持离线打开。
-- iPhone 与 Mac 的本地数据库默认独立，不自动同步。
-- iPhone 不能直接从 ZIP 安装 PWA；必须先部署到 HTTPS，再添加到主屏幕。
+注意：
+iOS 系统通知/Show Alert 的颜色、圆角和字体由系统控制，不能自定义成紫色 UI。
+本版本采用 PWA 内的确认卡实现同一视觉风格。
