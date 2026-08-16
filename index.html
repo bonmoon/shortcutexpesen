@@ -36,7 +36,7 @@
   }
   button,input,select{font:inherit}
   button{cursor:pointer}
-  .shell{max-width:1510px;margin:0 auto;display:grid;grid-template-columns:340px 1fr;gap:28px;padding:36px 34px 42px}
+  .shell{max-width:1480px;margin:0 auto;padding:28px 28px 42px}
   .intro{padding:12px 6px 0}
   .pill{display:inline-flex;align-items:center;padding:7px 16px;border-radius:999px;background:linear-gradient(135deg,#a79ddd,#9188c9);color:white;font-size:15px;letter-spacing:.02em;box-shadow:var(--shadow-soft)}
   .intro h1{font-size:48px;line-height:1.08;margin:18px 0 12px;letter-spacing:.01em}
@@ -148,7 +148,7 @@
   .status-badge:before{content:"";width:6px;height:6px;border-radius:50%;background:#75a37f}
 
   @media (max-width:1180px){
-    .shell{grid-template-columns:250px 1fr;padding:24px 18px;gap:18px}
+    .shell{padding:20px 18px}
     .intro h1{font-size:36px}
     .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
     .kpi:nth-child(4),.kpi:nth-child(5){min-height:150px}
@@ -339,26 +339,73 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="AI记账本">
 
+
+<style id="v3-ai-theme">
+:root{
+  --accent:#9D92D3;--accent-2:#C4B9DF;--accent-soft:#EEE9F6;
+  --accent-rgb:157,146,211;--accent-ink:#6D619B;
+}
+body[data-theme="cream"]{--accent:#E3C878;--accent-2:#F0DDA1;--accent-soft:#FBF4DA;--accent-rgb:227,200,120;--accent-ink:#8E773A}
+body[data-theme="sage"]{--accent:#8FB89D;--accent-2:#BAD2C1;--accent-soft:#E9F3EC;--accent-rgb:143,184,157;--accent-ink:#547661}
+body[data-theme="sunny"]{--accent:#E4B85D;--accent-2:#F3D38C;--accent-soft:#FFF3D4;--accent-rgb:228,184,93;--accent-ink:#8F6A21}
+body[data-theme="peach"]{--accent:#EAA36B;--accent-2:#F3C39E;--accent-soft:#FBEADE;--accent-rgb:234,163,107;--accent-ink:#955F37}
+
+.nav button.active,.primary,.fab{background:linear-gradient(135deg,var(--accent),var(--accent-2))!important}
+.mobile-nav button.active{background:var(--accent-soft)!important;color:var(--accent-ink)!important}
+.top-actions .icon-btn,.mobile-brand .star{color:var(--accent-ink)!important}
+.mobile-hero{
+  background:radial-gradient(circle at 82% 24%,rgba(255,255,255,.17),transparent 24%),
+  linear-gradient(135deg,var(--accent),var(--accent-2))!important;
+}
+.review-kicker{background:var(--accent-soft)!important;color:var(--accent-ink)!important}
+.review-amount{background:linear-gradient(135deg,var(--accent),var(--accent-2))!important}
+
+.theme-swatches{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:8px}
+.theme-swatch{height:44px;border-radius:14px;border:2px solid transparent;position:relative;background:var(--swatch)}
+.theme-swatch.active{border-color:#39343a;box-shadow:0 0 0 3px white inset}
+.theme-swatch:after{content:"✦";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:17px}
+.avatar-preview-row{display:flex;align-items:center;gap:12px;margin:10px 0}
+.avatar-preview{width:58px;height:58px;border-radius:18px;background:var(--accent-soft);overflow:hidden;display:grid;place-items:center;border:1px solid var(--line)}
+.avatar-preview img{width:100%;height:100%;object-fit:cover}
+.avatar-default-mini{font-size:26px;animation:agentBob 2.8s ease-in-out infinite}
+
+.ai-agent{position:fixed;right:22px;bottom:92px;z-index:86;display:flex;align-items:center;gap:10px}
+.ai-agent-label{background:rgba(255,253,250,.94);backdrop-filter:blur(14px);border:1px solid var(--line);box-shadow:0 9px 25px rgba(70,60,55,.10);padding:9px 12px;border-radius:999px;font-size:12px;font-weight:700;color:#4e4850}
+.ai-agent-btn{width:64px;height:64px;border-radius:22px;border:1px solid rgba(255,255,255,.88);background:linear-gradient(135deg,var(--accent),var(--accent-2));padding:0;box-shadow:0 13px 30px rgba(var(--accent-rgb),.30);overflow:hidden;display:grid;place-items:center;position:relative}
+.ai-agent-btn img{width:100%;height:100%;object-fit:cover}
+.agent-default{width:44px;height:44px;border-radius:15px;background:#fff9f4;position:relative;display:grid;place-items:center;animation:agentBob 2.6s ease-in-out infinite}
+.agent-default:before,.agent-default:after{content:"";position:absolute;top:13px;width:6px;height:8px;border-radius:50%;background:var(--accent-ink)}
+.agent-default:before{left:12px}.agent-default:after{right:12px}
+.agent-mouth{width:15px;height:7px;border:2px solid var(--accent-ink);border-top:0;border-radius:0 0 12px 12px;margin-top:14px}
+.agent-spark{position:absolute;right:4px;top:1px;color:#fff;font-size:14px;animation:sparkPulse 1.7s ease-in-out infinite}
+@keyframes agentBob{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-4px) rotate(1deg)}}
+@keyframes sparkPulse{0%,100%{opacity:.55;transform:scale(.82)}50%{opacity:1;transform:scale(1.15) rotate(12deg)}}
+
+.ai-sheet{align-items:end!important;padding:0!important;background:rgba(38,32,35,.32)!important}
+.ai-panel{width:min(620px,calc(100% - 24px));max-height:min(82vh,760px);overflow:auto;margin:0 auto 12px;background:#fffaf6;border-radius:28px;border:1px solid rgba(255,255,255,.9);box-shadow:0 30px 90px rgba(48,38,34,.24);padding:21px}
+.ai-panel-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.ai-panel-avatar{width:46px;height:46px;border-radius:15px;background:var(--accent-soft);overflow:hidden;display:grid;place-items:center}
+.ai-panel-avatar img{width:100%;height:100%;object-fit:cover}
+.ai-panel-head h2{font-size:19px;margin:0}.ai-panel-head p{font-size:11px;color:var(--muted);margin:4px 0 0}
+.ai-close{margin-left:auto}
+.ai-summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:14px 0}
+.ai-stat{background:#f5f0ec;border-radius:15px;padding:13px}.ai-stat small{display:block;color:#857e83;font-size:10px;margin-bottom:5px}.ai-stat b{font-size:18px}
+.ai-insight{border:1px solid rgba(var(--accent-rgb),.26);background:linear-gradient(135deg,rgba(var(--accent-rgb),.11),rgba(255,255,255,.55));border-radius:18px;padding:15px;margin-top:11px;font-size:12px;line-height:1.75;color:#514b52;white-space:pre-wrap}
+.ai-insight.loading{opacity:.65}
+.ai-panel-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:13px;flex-wrap:wrap}
+.ai-key-note{font-size:10px;color:#898187;margin-top:8px}
+@media(max-width:840px){
+  .ai-agent{right:17px;bottom:calc(78px + env(safe-area-inset-bottom));gap:7px}
+  .ai-agent-label{display:none}.ai-agent-btn{width:58px;height:58px;border-radius:20px}
+  .fab{right:88px!important}
+  .ai-panel{width:100%;max-height:84dvh;margin:0;border-radius:28px 28px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom))}
+}
+</style>
+
 </head>
 <body>
 <div class="shell">
-  <aside class="intro">
-    <span class="pill">NUMBERS 模板</span>
-    <h1>AI 智能记账本</h1>
-    <p class="sub">自动化记账 · 清晰分类 · 数据可视化</p>
-    <div class="chips"><span>小红书热门</span><span>精致高级</span><span>商业可落地</span></div>
-    <div class="feature-card">
-      <div class="feature"><div class="icon">✦</div><div><b>AI 自动记账</b><p>Shortcut 可直接通过 URL 参数写入本地账单。</p></div></div>
-      <div class="feature"><div class="icon">◔</div><div><b>多维度分类</b><p>自定义分类、账户和预算，结构对应原 Numbers 文件。</p></div></div>
-      <div class="feature"><div class="icon">▥</div><div><b>可视化看板</b><p>月度趋势、分类占比和最近交易自动更新。</p></div></div>
-      <div class="feature"><div class="icon">◎</div><div><b>预算与目标</b><p>按分类追踪预算使用率和剩余额度。</p></div></div>
-      <div class="feature"><div class="icon">☁</div><div><b>本地优先</b><p>IndexedDB + localStorage 双写；不上传服务器。</p></div></div>
-    </div>
-    <div class="tagline">♥ 精致生活，从每一笔记账开始</div>
-    <div class="audience">学生党　|　上班族　|　自由职业　|　理财爱好者</div>
-  </aside>
-
-  <main class="app">
+<main class="app">
     <header class="topbar">
       <div class="mobile-brand"><span class="star">✦</span> AI 记账本</div>
       <nav class="nav" id="nav">
@@ -498,10 +545,87 @@
             <p>Mac 浏览器与 iPhone Safari / 主屏幕 Web App 的本地数据库是<strong>各自独立</strong>的。这个版本不会把两台设备自动同步。</p>
             <p>如果之后要真正双向同步，可以把同一 UI 接到 iCloud / Supabase / Cloudflare D1 等同步层；当前版本先保持无服务器、低成本。</p>
           </div>
+
+          <div class="card">
+            <h3>主题配色</h3>
+            <p>星星、按钮、Dashboard Hero、AI Agent 与确认卡会同步换色。</p>
+            <div class="theme-swatches" id="themeSwatches">
+              <button class="theme-swatch" data-theme="lavender" style="--swatch:#9D92D3" title="Lavender"></button>
+              <button class="theme-swatch" data-theme="cream" style="--swatch:#E3C878" title="Cream"></button>
+              <button class="theme-swatch" data-theme="sage" style="--swatch:#8FB89D" title="Sage"></button>
+              <button class="theme-swatch" data-theme="sunny" style="--swatch:#E4B85D" title="Sunny"></button>
+              <button class="theme-swatch" data-theme="peach" style="--swatch:#EAA36B" title="Peach"></button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>AI 一键分析 · DeepSeek</h3>
+            <p>API Key 只保存在当前设备本地，不写入 GitHub。没有 Key 时仍可查看本地快速分析。</p>
+            <label style="font-size:11px;color:#696169">DeepSeek API Key
+              <input class="field" id="deepseekKey" type="password" autocomplete="off" placeholder="sk-..." style="width:100%;margin-top:6px">
+            </label>
+            <label style="font-size:11px;color:#696169;display:block;margin-top:10px">Model
+              <input class="field" id="deepseekModel" value="deepseek-v4-pro" style="width:100%;margin-top:6px">
+            </label>
+            <div class="toolbar" style="margin-top:10px"><button class="secondary" id="saveAISettings">保存 AI 设置</button></div>
+          </div>
+
+          <div class="card">
+            <h3>AI Agent Avatar</h3>
+            <p>可使用照片、PNG、GIF，也可填写外部图片/GIF URL。留空时使用默认动态 Agent。</p>
+            <div class="avatar-preview-row">
+              <div class="avatar-preview" id="avatarPreview"><span class="avatar-default-mini">✦</span></div>
+              <div><b style="font-size:13px">右下角 Agent</b><small style="display:block;color:var(--muted);margin-top:4px">GIF 会保持动态</small></div>
+            </div>
+            <label class="secondary" style="cursor:pointer;display:inline-block">选择手机图片 / GIF
+              <input type="file" id="avatarFile" accept="image/*,.gif" hidden>
+            </label>
+            <input class="field" id="avatarPath" placeholder="或输入 https://.../agent.gif" style="width:100%;margin-top:10px">
+            <div class="toolbar" style="margin-top:10px">
+              <button class="secondary" id="saveAvatarPath">使用路径</button>
+              <button class="secondary" id="resetAvatar">恢复默认</button>
+            </div>
+          </div>
+
         </div>
       </section>
     </div>
   </main>
+</div>
+
+
+<div class="ai-agent" id="aiAgent">
+  <div class="ai-agent-label">✦ AI 一键分析</div>
+  <button class="ai-agent-btn" id="aiAgentBtn" aria-label="AI 一键分析">
+    <span class="agent-default" id="agentDefault"><i class="agent-mouth"></i></span>
+    <img id="agentImage" alt="AI Agent avatar" hidden>
+    <span class="agent-spark">✦</span>
+  </button>
+</div>
+
+<div class="modal-backdrop ai-sheet" id="aiAnalysisBackdrop">
+  <div class="ai-panel">
+    <div class="ai-panel-head">
+      <div class="ai-panel-avatar" id="aiPanelAvatar"><span class="avatar-default-mini">✦</span></div>
+      <div><h2>AI 一键分析</h2><p id="aiMonthCaption">本月消费快速体检</p></div>
+      <button class="icon-btn ai-close" id="closeAIAnalysis">×</button>
+    </div>
+    <div class="ai-summary-grid">
+      <div class="ai-stat"><small>本月支出</small><b id="aiExpense">¥ 0</b></div>
+      <div class="ai-stat"><small>本月结余</small><b id="aiBalance">¥ 0</b></div>
+      <div class="ai-stat"><small>日均花费</small><b id="aiDailyAvg">¥ 0</b></div>
+      <div class="ai-stat"><small>单笔平均</small><b id="aiTxnAvg">¥ 0</b></div>
+      <div class="ai-stat"><small>最高分类</small><b id="aiTopCategory">—</b></div>
+      <div class="ai-stat"><small>预算使用</small><b id="aiBudgetPct">0%</b></div>
+    </div>
+    <div class="ai-insight" id="aiLocalInsight">点击「DeepSeek 深度分析」可生成更具体的消费洞察。</div>
+    <div class="ai-insight" id="aiDeepInsight" hidden></div>
+    <div class="ai-panel-actions">
+      <button class="secondary" id="refreshLocalAnalysis">刷新本地分析</button>
+      <button class="primary" id="runDeepSeekAnalysis">✦ DeepSeek 深度分析</button>
+    </div>
+    <div class="ai-key-note">DeepSeek API Key 仅存当前设备。</div>
+  </div>
 </div>
 
 <button class="fab" id="fab">＋</button>
@@ -650,6 +774,11 @@
   }
   function normalizeState(){
     state.settings ||= structuredClone(demo.settings);
+    state.settings.theme ||= "lavender";
+    state.settings.deepseekKey ||= "";
+    state.settings.deepseekModel ||= "deepseek-v4-pro";
+    state.settings.avatarData ||= "";
+    state.settings.avatarPath ||= "";
     state.categories ||= structuredClone(demo.categories);
     state.accounts ||= structuredClone(demo.accounts);
     state.transactions ||= [];
@@ -988,9 +1117,104 @@
 
   $("#copyShortcutBtn").onclick=async()=>{try{await navigator.clipboard.writeText(buildShortcutExample());toast("URL 模板已复制")}catch(e){prompt("复制下面的 URL",buildShortcutExample())}};
 
+
+  function applyTheme(theme){
+    const allowed=["lavender","cream","sage","sunny","peach"];
+    const t=allowed.includes(theme)?theme:"lavender";
+    document.body.dataset.theme=t;
+    state.settings.theme=t;
+    $$("#themeSwatches .theme-swatch").forEach(b=>b.classList.toggle("active",b.dataset.theme===t));
+  }
+  function getAvatarSource(){return state.settings.avatarData || state.settings.avatarPath || "";}
+  function renderAvatar(){
+    const src=getAvatarSource();
+    const img=$("#agentImage"), def=$("#agentDefault"), preview=$("#avatarPreview"), panel=$("#aiPanelAvatar");
+    if(src){
+      img.src=src; img.hidden=false; def.hidden=true;
+      preview.innerHTML=`<img src="${esc(src)}" alt="avatar">`;
+      panel.innerHTML=`<img src="${esc(src)}" alt="avatar">`;
+    }else{
+      img.hidden=true; img.removeAttribute("src"); def.hidden=false;
+      preview.innerHTML='<span class="avatar-default-mini">✦</span>';
+      panel.innerHTML='<span class="avatar-default-mini">✦</span>';
+    }
+    $("#avatarPath").value=state.settings.avatarPath||"";
+  }
+  function renderAISettings(){
+    applyTheme(state.settings.theme||"lavender");
+    $("#deepseekKey").value=state.settings.deepseekKey||"";
+    $("#deepseekModel").value=state.settings.deepseekModel||"deepseek-v4-pro";
+    renderAvatar();
+  }
+  function buildLocalAnalysis(){
+    const m=state.settings.selectedMonth, st=monthStats(m);
+    const expTx=st.tx.filter(t=>t.type==="Expense");
+    const days=new Date(+m.slice(0,4),+m.slice(5),0).getDate();
+    const daily=st.expense/Math.max(1,days), txAvg=st.expense/Math.max(1,expTx.length);
+    const spend=categorySpend(m), top=Object.entries(spend).sort((a,b)=>b[1]-a[1])[0];
+    const budget=Number(state.settings.monthlyBudget||0), pct=budget?st.expense/budget*100:0;
+    $("#aiMonthCaption").textContent=`${m} · 本月消费快速体检`;
+    $("#aiExpense").textContent=money0(st.expense); $("#aiBalance").textContent=money0(st.balance);
+    $("#aiDailyAvg").textContent=money(daily); $("#aiTxnAvg").textContent=money(txAvg);
+    $("#aiTopCategory").textContent=top?(CN[top[0]]||top[0]):"—"; $("#aiBudgetPct").textContent=`${pct.toFixed(0)}%`;
+    let lines=[];
+    if(!expTx.length) lines.push("本月还没有支出记录，暂时无法判断消费结构。");
+    else{
+      if(top) lines.push(`消费最高的是「${CN[top[0]]||top[0]}」，占本月支出的 ${(top[1]/Math.max(1,st.expense)*100).toFixed(1)}%。`);
+      lines.push(`日均花费约 ${money(daily)}，单笔支出平均约 ${money(txAvg)}。`);
+      if(budget){
+        if(pct>100) lines.push(`本月预算已超出 ${(pct-100).toFixed(0)}%，建议优先检查大额和高频分类。`);
+        else if(pct>80) lines.push(`预算已使用 ${pct.toFixed(0)}%，接近本月上限。`);
+        else lines.push(`预算使用 ${pct.toFixed(0)}%，目前仍在相对安全区间。`);
+      }
+    }
+    $("#aiLocalInsight").textContent=lines.join(" ");
+    return {month:m,...st,daily,txAvg,topCategory:top?.[0]||"",topAmount:top?.[1]||0,budget,budgetPct:pct};
+  }
+  async function runDeepSeekAnalysis(){
+    const key=(state.settings.deepseekKey||"").trim();
+    if(!key){toast("请先在 Settings 保存 DeepSeek API Key");switchView("settings");$("#aiAnalysisBackdrop").classList.remove("show");return;}
+    const stats=buildLocalAnalysis(), spend=categorySpend(stats.month);
+    const catText=Object.entries(spend).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`${CN[k]||k}: ${v.toFixed(2)}`).join(", ");
+    const prompt=`你是个人消费分析助手。只基于以下数据，用中文输出3条具体洞察和1条下月建议，不制造未提供的信息。月份:${stats.month};收入:${stats.income};支出:${stats.expense};结余:${stats.balance};日均支出:${stats.daily.toFixed(2)};单笔平均:${stats.txAvg.toFixed(2)};预算:${stats.budget};预算使用率:${stats.budgetPct.toFixed(1)}%;分类支出:${catText||"无"}.`;
+    const box=$("#aiDeepInsight"); box.hidden=false; box.classList.add("loading"); box.textContent="✦ DeepSeek 正在分析...";
+    try{
+      const res=await fetch("https://api.deepseek.com/chat/completions",{
+        method:"POST",
+        headers:{"Content-Type":"application/json","Authorization":`Bearer ${key}`},
+        body:JSON.stringify({model:state.settings.deepseekModel||"deepseek-v4-pro",messages:[{role:"system",content:"你是一名个人财务数据分析助手，回答简洁、具体、可执行。"},{role:"user",content:prompt}],stream:false})
+      });
+      if(!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data=await res.json(), text=data?.choices?.[0]?.message?.content;
+      if(!text) throw new Error("Empty response");
+      box.textContent=text;
+    }catch(err){
+      box.textContent=`DeepSeek 调用失败：${err.message}。本地快速分析仍然可用。若浏览器阻止跨域请求，可继续让 Shortcut 调 API，或之后增加轻量代理层。`;
+    }finally{box.classList.remove("loading")}
+  }
+  function openAIAnalysis(){buildLocalAnalysis();$("#aiDeepInsight").hidden=true;$("#aiAnalysisBackdrop").classList.add("show");}
+  $("#aiAgentBtn").onclick=openAIAnalysis;
+  $("#closeAIAnalysis").onclick=()=>$("#aiAnalysisBackdrop").classList.remove("show");
+  $("#refreshLocalAnalysis").onclick=buildLocalAnalysis;
+  $("#runDeepSeekAnalysis").onclick=runDeepSeekAnalysis;
+  $("#aiAnalysisBackdrop").addEventListener("click",e=>{if(e.target===$("#aiAnalysisBackdrop"))$("#aiAnalysisBackdrop").classList.remove("show")});
+  $("#themeSwatches").addEventListener("click",async e=>{const b=e.target.closest(".theme-swatch");if(!b)return;applyTheme(b.dataset.theme);await persist();toast("主题配色已更新")});
+  $("#saveAISettings").onclick=async()=>{state.settings.deepseekKey=$("#deepseekKey").value.trim();state.settings.deepseekModel=$("#deepseekModel").value.trim()||"deepseek-v4-pro";await persist();toast("AI 设置已保存在本机")};
+  $("#avatarFile").onchange=async e=>{
+    const file=e.target.files?.[0]; if(!file)return;
+    if(file.size>4*1024*1024){alert("建议 Avatar 小于 4MB，尤其是 GIF。");e.target.value="";return;}
+    const reader=new FileReader();
+    reader.onload=async()=>{state.settings.avatarData=String(reader.result);state.settings.avatarPath="";await persist();renderAvatar();toast(file.type==="image/gif"?"GIF Avatar 已启用":"Avatar 已更新")};
+    reader.readAsDataURL(file); e.target.value="";
+  };
+  $("#saveAvatarPath").onclick=async()=>{state.settings.avatarPath=$("#avatarPath").value.trim();state.settings.avatarData="";await persist();renderAvatar();toast("Avatar 路径已更新")};
+  $("#resetAvatar").onclick=async()=>{state.settings.avatarPath="";state.settings.avatarData="";await persist();renderAvatar();toast("已恢复默认动态 Agent")};
+
+
   (async()=>{
     await loadState();
     renderAll();
+    renderAISettings();
     await handleShortcutParams();
   })();
 })();
