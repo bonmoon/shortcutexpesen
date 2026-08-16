@@ -402,6 +402,64 @@ body[data-theme="peach"]{--accent:#EAA36B;--accent-2:#F3C39E;--accent-soft:#FBEA
 }
 </style>
 
+
+<style id="v4-theme-fixes">
+body{
+  background:
+    radial-gradient(circle at 10% -4%,rgba(var(--accent-rgb),.18),transparent 28%),
+    radial-gradient(circle at 92% 6%,rgba(var(--accent-rgb),.10),transparent 23%),
+    color-mix(in srgb, var(--accent-soft) 34%, #FAF7F2 66%) !important;
+  transition:background .25s ease;
+}
+.app{
+  background:color-mix(in srgb,#FFFDF9 90%,var(--accent-soft) 10%)!important;
+  border-color:rgba(var(--accent-rgb),.18)!important;
+}
+.topbar{
+  background:color-mix(in srgb,rgba(255,253,249,.92) 82%,var(--accent-soft) 18%)!important;
+  border-bottom-color:rgba(var(--accent-rgb),.18)!important;
+}
+.card,.section-card,.recent,.summary-card,.list-card{
+  background:color-mix(in srgb,#FFFFFF 92%,var(--accent-soft) 8%)!important;
+  border-color:rgba(var(--accent-rgb),.20)!important;
+}
+.mobile-nav{
+  background:color-mix(in srgb,rgba(255,253,250,.94) 86%,var(--accent-soft) 14%)!important;
+  border-color:rgba(var(--accent-rgb),.22)!important;
+}
+.field,.secondary,.icon-btn{
+  border-color:rgba(var(--accent-rgb),.22)!important;
+}
+.review-card,.ai-panel{
+  background:color-mix(in srgb,#FFFAF6 92%,var(--accent-soft) 8%)!important;
+}
+.type-chip.expense{
+  background:color-mix(in srgb,var(--accent-soft) 70%,#FAEBE1 30%)!important;
+  color:var(--accent-ink)!important;
+}
+.month-inline{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.month-arrow{
+  width:28px;height:28px;border-radius:999px;border:0;
+  background:rgba(255,255,255,.16);color:white;font-size:22px;line-height:1;
+}
+.ai-agent-btn.custom-avatar{background:transparent!important;padding:0!important}
+.ai-agent-btn.custom-avatar .agent-spark{display:none!important}
+.ai-agent-btn.custom-avatar #agentDefault{display:none!important}
+.ai-agent-btn.custom-avatar #agentImage{
+  position:absolute;inset:0;width:100%;height:100%;display:block!important;
+  object-position:center;border-radius:inherit;
+}
+.avatar-preview img,.ai-panel-avatar img{
+  width:100%;height:100%;object-position:center;
+}
+@media(max-width:840px){
+  body{background:
+    radial-gradient(circle at 12% -3%,rgba(var(--accent-rgb),.18),transparent 28%),
+    color-mix(in srgb,var(--accent-soft) 28%,#FAF7F2 72%)!important}
+  .app{background:transparent!important}
+}
+</style>
+
 </head>
 <body>
 <div class="shell">
@@ -425,7 +483,11 @@ body[data-theme="peach"]{--accent:#EAA36B;--accent-2:#F3C39E;--accent-soft:#FBEA
     <div class="content">
       <section class="view active" id="view-dashboard">
         <div class="mobile-only mobile-hero">
-          <small>本月结余</small>
+          <div class="month-inline">
+            <button class="month-arrow" id="prevMonthMobile">‹</button>
+            <small id="mobileMonthLabel">本月结余</small>
+            <button class="month-arrow" id="nextMonthMobile">›</button>
+          </div>
           <b id="mBalance">¥ 0.00</b>
           <p>收入　<span id="mIncome">¥ 0</span><br>支出　<span id="mExpense">¥ 0</span></p>
         </div>
@@ -572,11 +634,28 @@ body[data-theme="peach"]{--accent:#EAA36B;--accent-2:#F3C39E;--accent-soft:#FBEA
 
           <div class="card">
             <h3>AI Agent Avatar</h3>
-            <p>可使用照片、PNG、GIF，也可填写外部图片/GIF URL。留空时使用默认动态 Agent。</p>
+            <p>上传照片、PNG 或 GIF。上传后会完全替换默认 Agent，不再叠加默认图形。</p>
             <div class="avatar-preview-row">
               <div class="avatar-preview" id="avatarPreview"><span class="avatar-default-mini">✦</span></div>
               <div><b style="font-size:13px">右下角 Agent</b><small style="display:block;color:var(--muted);margin-top:4px">GIF 会保持动态</small></div>
             </div>
+            <label class="secondary" style="cursor:pointer;display:inline-block">选择手机图片 / GIF
+              <input type="file" id="avatarFile" accept="image/*,.gif" hidden>
+            </label>
+            <div style="margin-top:10px">
+              <label style="font-size:11px;color:#696169">图片显示方式
+                <select class="field" id="avatarFit" style="width:100%;margin-top:6px">
+                  <option value="cover">填满并裁切（推荐）</option>
+                  <option value="contain">完整显示</option>
+                </select>
+              </label>
+            </div>
+            <input class="field" id="avatarPath" placeholder="或输入 https://.../agent.gif" style="width:100%;margin-top:10px">
+            <div class="toolbar" style="margin-top:10px">
+              <button class="secondary" id="saveAvatarPath">使用路径</button>
+              <button class="secondary" id="resetAvatar">恢复默认</button>
+            </div>
+          </div>
             <label class="secondary" style="cursor:pointer;display:inline-block">选择手机图片 / GIF
               <input type="file" id="avatarFile" accept="image/*,.gif" hidden>
             </label>
@@ -774,11 +853,15 @@ body[data-theme="peach"]{--accent:#EAA36B;--accent-2:#F3C39E;--accent-soft:#FBEA
   }
   function normalizeState(){
     state.settings ||= structuredClone(demo.settings);
+    if(!/^\d{4}-\d{2}$/.test(state.settings.selectedMonth||"")){
+      state.settings.selectedMonth=new Date().toISOString().slice(0,7);
+    }
     state.settings.theme ||= "lavender";
     state.settings.deepseekKey ||= "";
     state.settings.deepseekModel ||= "deepseek-v4-pro";
     state.settings.avatarData ||= "";
     state.settings.avatarPath ||= "";
+    state.settings.avatarFit ||= "cover";
     state.categories ||= structuredClone(demo.categories);
     state.accounts ||= structuredClone(demo.accounts);
     state.transactions ||= [];
@@ -831,6 +914,7 @@ body[data-theme="peach"]{--accent:#EAA36B;--accent-2:#F3C39E;--accent-soft:#FBEA
 
   function renderDashboard(){
     const m=state.settings.selectedMonth;
+    const _ml=$("#mobileMonthLabel"); if(_ml) _ml.textContent=`${m.slice(0,4)}年${Number(m.slice(5))}月结余`;
     const st=monthStats(m), prev=monthStats(lastMonths(m,2)[0]);
     $("#kBalance").textContent=money(st.balance);
     $("#kExpense").textContent=money(st.expense);
@@ -1009,7 +1093,12 @@ body[data-theme="peach"]{--accent:#EAA36B;--accent-2:#F3C39E;--accent-soft:#FBEA
       id:uid(), date:t.date, type:t.type==="Income"?"Income":"Expense", amount:Number(t.amount),
       category:t.category||"Other", merchant:t.merchant||"", account:t.account||state.settings.defaultAccount||"", note:t.note||""
     };
-    state.transactions.push(tx); await persist(); renderAll();
+    state.transactions.push(tx);
+    // Dashboard should immediately reflect the newly confirmed transaction month.
+    state.settings.selectedMonth = monthOf(tx.date);
+    await persist();
+    renderAll();
+    renderAISettings();
     toast(source==="shortcut"?"Shortcut 已写入一笔交易":"交易已保存");
     return tx;
   }
@@ -1128,17 +1217,26 @@ body[data-theme="peach"]{--accent:#EAA36B;--accent-2:#F3C39E;--accent-soft:#FBEA
   function getAvatarSource(){return state.settings.avatarData || state.settings.avatarPath || "";}
   function renderAvatar(){
     const src=getAvatarSource();
-    const img=$("#agentImage"), def=$("#agentDefault"), preview=$("#avatarPreview"), panel=$("#aiPanelAvatar");
+    const img=$("#agentImage"), def=$("#agentDefault"), preview=$("#avatarPreview"), panel=$("#aiPanelAvatar"), btn=$("#aiAgentBtn");
+    const fit=state.settings.avatarFit||"cover";
     if(src){
-      img.src=src; img.hidden=false; def.hidden=true;
-      preview.innerHTML=`<img src="${esc(src)}" alt="avatar">`;
-      panel.innerHTML=`<img src="${esc(src)}" alt="avatar">`;
+      img.src=src;
+      img.style.objectFit=fit;
+      img.hidden=false;
+      def.hidden=true;
+      btn.classList.add("custom-avatar");
+      preview.innerHTML=`<img src="${esc(src)}" alt="avatar" style="object-fit:${fit}">`;
+      panel.innerHTML=`<img src="${esc(src)}" alt="avatar" style="object-fit:${fit}">`;
     }else{
-      img.hidden=true; img.removeAttribute("src"); def.hidden=false;
+      btn.classList.remove("custom-avatar");
+      img.hidden=true;
+      img.removeAttribute("src");
+      def.hidden=false;
       preview.innerHTML='<span class="avatar-default-mini">✦</span>';
       panel.innerHTML='<span class="avatar-default-mini">✦</span>';
     }
     $("#avatarPath").value=state.settings.avatarPath||"";
+    if($("#avatarFit")) $("#avatarFit").value=fit;
   }
   function renderAISettings(){
     applyTheme(state.settings.theme||"lavender");
@@ -1193,6 +1291,18 @@ body[data-theme="peach"]{--accent:#EAA36B;--accent-2:#F3C39E;--accent-soft:#FBEA
     }finally{box.classList.remove("loading")}
   }
   function openAIAnalysis(){buildLocalAnalysis();$("#aiDeepInsight").hidden=true;$("#aiAnalysisBackdrop").classList.add("show");}
+
+  function shiftSelectedMonth(delta){
+    const [y,m]=state.settings.selectedMonth.split("-").map(Number);
+    const d=new Date(y,m-1+delta,1);
+    state.settings.selectedMonth=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;
+    persist();
+    renderAll();
+    buildLocalAnalysis();
+  }
+  if($("#prevMonthMobile")) $("#prevMonthMobile").onclick=()=>shiftSelectedMonth(-1);
+  if($("#nextMonthMobile")) $("#nextMonthMobile").onclick=()=>shiftSelectedMonth(1);
+
   $("#aiAgentBtn").onclick=openAIAnalysis;
   $("#closeAIAnalysis").onclick=()=>$("#aiAnalysisBackdrop").classList.remove("show");
   $("#refreshLocalAnalysis").onclick=buildLocalAnalysis;
@@ -1204,11 +1314,12 @@ body[data-theme="peach"]{--accent:#EAA36B;--accent-2:#F3C39E;--accent-soft:#FBEA
     const file=e.target.files?.[0]; if(!file)return;
     if(file.size>4*1024*1024){alert("建议 Avatar 小于 4MB，尤其是 GIF。");e.target.value="";return;}
     const reader=new FileReader();
-    reader.onload=async()=>{state.settings.avatarData=String(reader.result);state.settings.avatarPath="";await persist();renderAvatar();toast(file.type==="image/gif"?"GIF Avatar 已启用":"Avatar 已更新")};
+    reader.onload=async()=>{state.settings.avatarData=String(reader.result);state.settings.avatarPath="";state.settings.avatarFit=$("#avatarFit")?.value||"cover";await persist();renderAvatar();toast(file.type==="image/gif"?"GIF Avatar 已启用":"Avatar 已更新")};
     reader.readAsDataURL(file); e.target.value="";
   };
-  $("#saveAvatarPath").onclick=async()=>{state.settings.avatarPath=$("#avatarPath").value.trim();state.settings.avatarData="";await persist();renderAvatar();toast("Avatar 路径已更新")};
-  $("#resetAvatar").onclick=async()=>{state.settings.avatarPath="";state.settings.avatarData="";await persist();renderAvatar();toast("已恢复默认动态 Agent")};
+  $("#saveAvatarPath").onclick=async()=>{state.settings.avatarPath=$("#avatarPath").value.trim();state.settings.avatarData="";state.settings.avatarFit=$("#avatarFit")?.value||"cover";await persist();renderAvatar();toast("Avatar 路径已更新")};
+  $("#resetAvatar").onclick=async()=>{state.settings.avatarPath="";state.settings.avatarData="";state.settings.avatarFit="cover";await persist();renderAvatar();toast("已恢复默认动态 Agent")};
+  $("#avatarFit").onchange=async()=>{state.settings.avatarFit=$("#avatarFit").value;await persist();renderAvatar();toast("Avatar 显示方式已更新")};
 
 
   (async()=>{
